@@ -31,7 +31,7 @@ if strcmp(jobName, 'train_edge_model')
 
   jobParam = struct('numThreads', 1, 'codeDir', pwd(), 'preamble', '', 'matlabpoolN', 1, 'globalVars', {{}}, 'fHandle', @empty, 'numOutputs', 1);
   resourceParam = struct('mem', 46, 'hh', 4, 'numJobs', 4, 'ppn', 1, 'nodes', 1, ...
-    'logDir', '/work4/sgupta/pbsBatchDir/', 'queue', 'psi', 'notif', false, 'username', 'sgupta', 'headNode', 'zen');
+    'logDir', p.pbs_batch_dir, 'queue', 'psi', 'notif', false, 'username', 'sgupta', 'headNode', 'zen');
   pDistrTrain={'type', 'psi', 'pLaunch', struct('jobParam', jobParam, 'resourceParam', resourceParam)};
   opts.useParfor = 2; opts.parforOpts = pDistrTrain;
 
@@ -59,7 +59,7 @@ if strcmp(jobName, 'test_edge_model')
   
   %% Testing code
   jobParam = struct('numThreads', 1, 'codeDir', pwd(), 'preamble', '', 'matlabpoolN', 1, 'globalVars', {{}}, 'fHandle', @empty, 'numOutputs', 1);
-  resourceParam = struct('mem', 2, 'hh', 1, 'numJobs', 50, 'ppn', 1, 'nodes', 1, 'logDir', '/work4/sgupta/pbsBatchDir/', 'queue', 'psi', 'notif', false, 'username', 'sgupta', 'headNode', 'psi');
+  resourceParam = struct('mem', 2, 'hh', 1, 'numJobs', 50, 'ppn', 1, 'nodes', 1, 'logDir', p.pbs_batch_dir, 'queue', 'psi', 'notif', false, 'username', 'sgupta', 'headNode', 'psi');
   pDistrEval={'type', 'psi', 'pLaunch', struct('jobParam', jobParam, 'resourceParam', resourceParam)};
 
   %% set detection parameters (can set after training)

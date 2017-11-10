@@ -10,7 +10,9 @@ function p = get_paths(runname)
   end
   p.root_cache_dir = fullfile(pwd(), '..', 'eccv14-cachedir');
   p.cache_dir = fullfile(p.root_cache_dir, runname);
-  
+ 
+  p.pbs_batch_dir = fullfile(p.cache_dir, 'pbs_batch');
+ 
   p.contours_dir = fullfile(p.cache_dir, 'contours');
     p.contours_cues_dir = fullfile(p.contours_dir, 'cues');
     p.contours_model_dir = fullfile(p.contours_dir, 'models');

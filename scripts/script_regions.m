@@ -9,7 +9,7 @@ if strcmp(jobName, 'edges_to_ucms')
     args{i} = {sprintf('all_%d_%d_end', i, K), modelfile, p.ucm_dir, p.contours_cues_dir, cropCamera(getCameraParam('color'))};
   end
   jobParam = struct('numThreads', 1, 'codeDir', pwd(), 'preamble', '', 'matlabpoolN', 0, 'globalVars', {{}}, 'fHandle', @wrapper_rgbd_to_ucm, 'numOutputs', 0);
-  resourceParam = struct('mem', 8, 'hh', 20, 'numJobs', K, 'ppn', 1, 'nodes', 1, 'logDir', '/work4/sgupta/pbsBatchDir/', 'queue', 'psi', 'notif', false, 'username', 'sgupta', 'headNode', 'zen');
+  resourceParam = struct('mem', 8, 'hh', 20, 'numJobs', K, 'ppn', 1, 'nodes', 1, 'logDir', p.pbs_batch_dir, 'queue', 'psi', 'notif', false, 'username', 'sgupta', 'headNode', 'zen');
   [jobId jobDir] = jobParallel(jobName, resourceParam, jobParam, args);
   while ~collectJob(jobDir), pause(120); end
 end
@@ -19,7 +19,7 @@ if strcmp(jobName, 'benchmark_multi_ucm')
   p = get_paths();
   c = benchmarkPaths();
   jobParam = struct('numThreads', 1, 'codeDir', pwd(), 'preamble', '', 'matlabpoolN', 1, 'globalVars', {{}}, 'fHandle', @empty, 'numOutputs', 1);
-  resourceParam = struct('mem', 2, 'hh', 1, 'numJobs', 40, 'ppn', 1, 'nodes', 1, 'logDir', '/work4/sgupta/pbsBatchDir/', 'queue', 'psi', 'notif', false, 'username', 'sgupta', 'headNode', 'zen');
+  resourceParam = struct('mem', 2, 'hh', 1, 'numJobs', 40, 'ppn', 1, 'nodes', 1, 'logDir', p.pbs_batch_dir, 'queue', 'psi', 'notif', false, 'username', 'sgupta', 'headNode', 'zen');
   pDistrEval={'type', 'psi', 'pLaunch', struct('jobParam', jobParam, 'resourceParam', resourceParam)};
   edgesEvalDir('resDir', fullfile(p.ucm_dir, 'multi-png', filesep()), ...
     'gtDir', fullfile(c.benchmarkGtDir, filesep()), ...
@@ -37,7 +37,7 @@ end
 if strcmp(jobName, 'cache-mcg')
   % Cache the base features for MCG
   jobParam = struct('numThreads', 1, 'codeDir', pwd(), 'preamble', '', 'matlabpoolN', 0, 'globalVars', {{}}, 'fHandle', @cache_mcg_features, 'numOutputs', 0);
-  resourceParam = struct('mem', 4, 'hh', 20, 'numJobs', 80, 'ppn', 1, 'nodes', 1, 'logDir', '/work4/sgupta/pbsBatchDir/', 'queue', 'psi', 'notif', false, 'username', 'sgupta', 'headNode', 'zen');
+  resourceParam = struct('mem', 4, 'hh', 20, 'numJobs', 80, 'ppn', 1, 'nodes', 1, 'logDir', p.pbs_batch_dir, 'queue', 'psi', 'notif', false, 'username', 'sgupta', 'headNode', 'zen');
   
   params = nyud_params('root_cache_dir', p.cache_dir, 'feature_id', 'depth', 'depth_features', true, 'camera_matrix', cropCamera(getCameraParam('color')));  
   

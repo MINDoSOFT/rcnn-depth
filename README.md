@@ -27,9 +27,9 @@ This code (RCNN-Depth) is released under the Simplified BSD License (refer to th
 
   ```shell
   mkdir rcnn-depth && cd rcnn-depth
-  git clone https://github.com/s-gupta/rcnn-depth.git eccv14-code
-  git clone https://github.com/s-gupta/rgbdutils.git eccv14-code/rgbdutils
-  git clone https://github.com/s-gupta/utils.git eccv14-code/utils
+  git clone https://github.com/MINDoSOFT/rcnn-depth.git eccv14-code
+  git clone https://github.com/MINDoSOFT/rgbdutils.git eccv14-code/rgbdutils
+  git clone https://github.com/MINDoSOFT/utils.git eccv14-code/utils
   git clone https://github.com/s-gupta/nyu-hooks.git eccv14-code/nyu-hooks
   ```
 
@@ -83,11 +83,25 @@ This code (RCNN-Depth) is released under the Simplified BSD License (refer to th
   cd ../../../
   ```
   
-0. Build toolboxes, MCG, RCNN. Start MATLAB in the folder eccv14-code
+0. Build liblinear (Adjust eccv14-code/rcnn/external/liblinear-1.94/matlab/Makefile according to this [fix](https://github.com/s-gupta/rcnn-depth/issues/2#issuecomment-214543179)).
+
+  ```shell
+  cd eccv14-code/rcnn/external/liblinear-1.94/matlab/
+  make
+  cd ../../../../../
+  ```
+
+0. Before running any MATLAB related code need to set some environment variables to prevent exception that have to do with libraries OpenMP, CUDA not loading.
+
+  ```shell
+  ./setup_env_params.sh
+  ```
+
+0. Build toolboxes, MCG, RCNN. (rcnn_build just builds liblinear, so it was replaced with previous step) Start MATLAB in the folder eccv14-code
 
   ```matlab
   mcg_build();
-  rcnn_build();
+  % rcnn_build();
   toolboxCompile();
   structured_edges_build();
   ```

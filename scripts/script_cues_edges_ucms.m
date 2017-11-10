@@ -1,6 +1,6 @@
 if strcmp(jobName, 'detect-edge')
   jobParam = struct('numThreads', 1, 'codeDir', pwd(), 'preamble', '', 'matlabpoolN', 1, 'globalVars', {{}}, 'fHandle', @detectEdge, 'numOutputs', 0);
-  resourceParam = struct('mem', 2, 'hh', 5, 'numJobs', 40, 'ppn', 1, 'nodes', 1, 'logDir', '/work4/sgupta/pbsBatchDir/', 'queue', 'psi', 'notif', false, 'username', 'sgupta', 'headNode', 'zen')
+  resourceParam = struct('mem', 2, 'hh', 5, 'numJobs', 40, 'ppn', 1, 'nodes', 1, 'logDir', p.pbs_batch_dir, 'queue', 'psi', 'notif', false, 'username', 'sgupta', 'headNode', 'zen')
 
 
   inDir = '/work5/sgupta/datasets/nyud2/data/';
@@ -15,7 +15,7 @@ end
 
 if strcmp(jobName, 'edge-ucm')
   jobParam = struct('numThreads', 1, 'codeDir', pwd(), 'preamble', '', 'matlabpoolN', 1, 'globalVars', {{}}, 'fHandle', @wrapper_rgbd_to_ucm, 'numOutputs', 0);
-  resourceParam = struct('mem', 4, 'hh', 5, 'numJobs', 60, 'ppn', 1, 'nodes', 1, 'logDir', '/work4/sgupta/pbsBatchDir/', 'queue', 'psi', 'notif', false, 'username', 'sgupta', 'headNode', 'zen')
+  resourceParam = struct('mem', 4, 'hh', 5, 'numJobs', 60, 'ppn', 1, 'nodes', 1, 'logDir', p.pbs_batch_dir, 'queue', 'psi', 'notif', false, 'username', 'sgupta', 'headNode', 'zen')
 
   for i = 1:1449,
       args{i} = {sprintf('img_%04d', i+5000)};
@@ -25,7 +25,7 @@ if strcmp(jobName, 'edge-ucm')
   while ~collectJob(jobDir), pause(60); end
 
   jobParam = struct('numThreads', 1, 'codeDir', pwd(), 'preamble', '', 'matlabpoolN', 1, 'globalVars', {{}}, 'fHandle', @empty, 'numOutputs', 1);
-  resourceParam = struct('mem', 2, 'hh', 1, 'numJobs', 50, 'ppn', 1, 'nodes', 1, 'logDir', '/work4/sgupta/pbsBatchDir/', 'queue', 'psi', 'notif', false, 'username', 'sgupta', 'headNode', 'psi');
+  resourceParam = struct('mem', 2, 'hh', 1, 'numJobs', 50, 'ppn', 1, 'nodes', 1, 'logDir', p.pbs_batch_dir, 'queue', 'psi', 'notif', false, 'username', 'sgupta', 'headNode', 'psi');
   pDistrEval={'type', 'psi', 'pLaunch', struct('jobParam', jobParam, 'resourceParam', resourceParam)};
 
   gtDir = '/work4/sgupta/tmp/splitBias/sparse_contour_gradients/nyu_v2/nyuFull/groundTruth/test/';
@@ -37,7 +37,7 @@ end
 
 if strcmp(jobName, 'cache-mcg')
   jobParam = struct('numThreads', 1, 'codeDir', pwd(), 'preamble', '', 'matlabpoolN', 0, 'globalVars', {{}}, 'fHandle', @cache_mcg_features, 'numOutputs', 0);
-  resourceParam = struct('mem', 4, 'hh', 20, 'numJobs', 60, 'ppn', 1, 'nodes', 1, 'logDir', '/work4/sgupta/pbsBatchDir/', 'queue', 'psi', 'notif', false, 'username', 'sgupta', 'headNode', 'zen');
+  resourceParam = struct('mem', 4, 'hh', 20, 'numJobs', 60, 'ppn', 1, 'nodes', 1, 'logDir', p.pbs_batch_dir, 'queue', 'psi', 'notif', false, 'username', 'sgupta', 'headNode', 'zen');
   params = nyud_params();
   for i = 1:1449,
       args{i} = {params, sprintf('img_%04d', i+5000)};
