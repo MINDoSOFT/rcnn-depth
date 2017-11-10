@@ -8,8 +8,8 @@ if strcmp(jobName, 'edges_to_ucms')
   for i = 1:K,
     args{i} = {sprintf('all_%d_%d_end', i, K), modelfile, p.ucm_dir, p.contours_cues_dir, cropCamera(getCameraParam('color'))};
   end
-  jobParam = struct('numThreads', 1, 'codeDir', pwd(), 'preamble', '', 'matlabpoolN', 0, 'globalVars', {{}}, 'fHandle', @wrapper_rgbd_to_ucm, 'numOutputs', 0);
-  resourceParam = struct('mem', 8, 'hh', 20, 'numJobs', K, 'ppn', 1, 'nodes', 1, 'logDir', p.pbs_batch_dir, 'queue', 'psi', 'notif', false, 'username', 'sgupta', 'headNode', 'zen');
+  jobParam = struct('numThreads', p.threads, 'codeDir', pwd(), 'preamble', '', 'matlabpoolN', 0, 'globalVars', {{}}, 'fHandle', @wrapper_rgbd_to_ucm, 'numOutputs', 0);
+  resourceParam = struct('mem', 8, 'hh', 20, 'numJobs', K, 'ppn', 1, 'nodes', p.nodes, 'logDir', p.pbs_batch_dir, 'queue', 'psi', 'notif', false, 'username', 'sgupta', 'headNode', 'zen');
   [jobId jobDir] = jobParallel(jobName, resourceParam, jobParam, args);
   while ~collectJob(jobDir), pause(120); end
 end

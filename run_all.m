@@ -13,8 +13,8 @@ function [E, ucm2, candidates, detection_scores_no_nms, cls] = run_all(I, D, RD,
   [ucm2 ucms] = contours_to_ucm(I, sc, Es, O);
   if(~isempty(out_file)), save(out_file, 'E', 'Es', 'O', 'ucm2', 'ucms'); end
 
-  disp(out_file)
-  return;
+%  disp(out_file)
+%  return;
 
   %% Compute the regions
   params = nyud_params('root_cache_dir', p.cache_dir, 'feature_id', 'depth', 'depth_features', true, 'camera_matrix', C);  

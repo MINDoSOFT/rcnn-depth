@@ -10,8 +10,10 @@ function p = get_paths(runname)
   end
   p.root_cache_dir = fullfile(pwd(), '..', 'eccv14-cachedir');
   p.cache_dir = fullfile(p.root_cache_dir, runname);
- 
+
+  % Customizations for paths
   p.pbs_batch_dir = fullfile(p.cache_dir, 'pbs_batch');
+  p.camera_ready_dir = fullfile(p.cache_dir, 'camera_ready');
  
   p.contours_dir = fullfile(p.cache_dir, 'contours');
     p.contours_cues_dir = fullfile(p.contours_dir, 'cues');
@@ -38,6 +40,10 @@ function p = get_paths(runname)
   f = fieldnames(p);
   for i = 1:length(f), exists_or_mkdir(p.(f{i})); end
   
+  % Customizations for parallel jobs
+  p.nodes = 16;
+  p.threads = 4;
+
   p.mean_file_color = fullfile('caffe-data', 'mean', 'imagenet_mean');
   p.mean_file_disparity = fullfile('caffe-data', 'mean', 'nyu_disparity_train1');
   p.mean_file_hha = fullfile('caffe-data', 'mean', 'nyu_hha_train1');

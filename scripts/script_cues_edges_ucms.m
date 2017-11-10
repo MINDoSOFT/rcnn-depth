@@ -4,7 +4,7 @@ if strcmp(jobName, 'detect-edge')
 
 
   inDir = '/work5/sgupta/datasets/nyud2/data/';
-  outDir = '/work5/sgupta/eccv14-camera-ready/edges-release/';
+  outDir = fullfile(p.camera_ready_dir, 'edges-release');
   for i = 1:1449,
       args{i} = {fullfile(inDir, 'images', sprintf('img_%04d.png', i+5000)), fullfile(inDir, 'depth', sprintf('img_%04d.png', i+5000)), sprintf('img_%04d', i+5000), 'models-sg/forest/modelNyuRgbd-17-release.mat', [2.0 1.0 0.5], fullfile(outDir, sprintf('img_%04d.mat', i+5000))}; 
   end
@@ -29,7 +29,7 @@ if strcmp(jobName, 'edge-ucm')
   pDistrEval={'type', 'psi', 'pLaunch', struct('jobParam', jobParam, 'resourceParam', resourceParam)};
 
   gtDir = '/work4/sgupta/tmp/splitBias/sparse_contour_gradients/nyu_v2/nyuFull/groundTruth/test/';
-  resDir = '/work5/sgupta/eccv14-camera-ready/ucms-release/multi-png';
+  resDir = fullfile(fullfile(p.camera_ready_dir, 'ucms-release'), 'multi-png');
   p.maxDist = 0.011; p.thrs = 99; p.cleanup = 0; p.pDistr = pDistrEval;
   edgesEvalDir('resDir', resDir, 'gtDir', gtDir,...
     'pDistr',p.pDistr,'cleanup',p.cleanup,'thrs',p.thrs,'maxDist',p.maxDist);
@@ -74,7 +74,7 @@ if strcmp(jobName, 'edges_to_ucms')
     cacheFile = fullfile_ext(p.contours_cues_dir, id, 'mat');
     tic; [E, Es, O] = detectEdge(I, D, [], cropCamera(getCameraParam('color')), model, sc, [], cacheFile); toc;
     tic; [ucm2 ucms] = contours_to_ucm(I, sc, Es, O); toc;
-    outDir = '/work5/sgupta/eccv14-camera-ready/ucms-release/';
+    outDir = fullfile(p.camera_ready_dir, 'ucms-release');
     parsave(fullfile_ext(outDir, 'multi', id, 'mat'), 'ucm2', ucm2);
     parsave(fullfile_ext(outDir, 'scale_2.0', id, 'mat'), 'ucm2', ucms(:,:,1));
     parsave(fullfile_ext(outDir, 'scale_1.0', id, 'mat'), 'ucm2', ucms(:,:,2));
