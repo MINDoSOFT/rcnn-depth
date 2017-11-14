@@ -14,6 +14,8 @@ function p = get_paths(runname)
   % Customizations for paths
   p.pbs_batch_dir = fullfile(p.cache_dir, 'pbs_batch');
   p.camera_ready_dir = fullfile(p.cache_dir, 'camera_ready');
+  p.for_std2p_dir = fullfile(p.cache_dir, 'for_std2p');
+  p.for_std2p_hha_dir = fullfile(p.for_std2p_dir, 'hha');
  
   p.contours_dir = fullfile(p.cache_dir, 'contours');
     p.contours_cues_dir = fullfile(p.contours_dir, 'cues');
@@ -49,4 +51,7 @@ function p = get_paths(runname)
   p.mean_file_hha = fullfile('caffe-data', 'mean', 'nyu_hha_train1');
   p.caffe_net = fullfile('caffe-data', 'caffe_reference_imagenet_model');
   p.rgb_edge_model = fullfile('structured-edges', 'models', 'forest', 'modelBsds.mat');
+
+  % Customizations for std2p files
+  p.ucm2_superpixel_file = fullfile(p.for_std2p_dir, 'superpixels_ucm2.mat');
 end
