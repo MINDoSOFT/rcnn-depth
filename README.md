@@ -30,7 +30,7 @@ This code (RCNN-Depth) is released under the Simplified BSD License (refer to th
   git clone https://github.com/MINDoSOFT/rcnn-depth.git eccv14-code
   git clone https://github.com/MINDoSOFT/rgbdutils.git eccv14-code/rgbdutils
   git clone https://github.com/MINDoSOFT/utils.git eccv14-code/utils
-  git clone https://github.com/s-gupta/nyu-hooks.git eccv14-code/nyu-hooks
+  git clone https://github.com/MINDoSOFT/nyu-hooks.git eccv14-code/nyu-hooks
   ```
 
 0. Checkout caffe-code 
