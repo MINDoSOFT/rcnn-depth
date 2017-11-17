@@ -52,6 +52,4 @@ function p = get_paths(runname)
   p.caffe_net = fullfile('caffe-data', 'caffe_reference_imagenet_model');
   p.rgb_edge_model = fullfile('structured-edges', 'models', 'forest', 'modelBsds.mat');
 
-  % Customizations for std2p files
-  p.ucm2_superpixel_file = fullfile(p.for_std2p_dir, 'superpixels_ucm2.mat');
 end

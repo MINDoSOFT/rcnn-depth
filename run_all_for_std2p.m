@@ -12,11 +12,8 @@ function [E, ucm2, candidates, detection_scores_no_nms, cls] = run_all(I, D, RD,
   [E, Es, O] = detectEdge(I, D, [], C, model, sc, [], []);
   [ucm2 ucms] = contours_to_ucm(I, sc, Es, O);
   if(~isempty(out_file)), save(out_file, 'E', 'Es', 'O', 'ucm2', 'ucms'); end
-  save(p.ucm2_superpixel_file, 'ucm2');
 
-%  disp(out_file)
   disp('Compute UCMs OK');
-%  return;
 
   %% Compute the regions
   params = nyud_params('root_cache_dir', p.cache_dir, 'feature_id', 'depth', 'depth_features', true, 'camera_matrix', C);  
@@ -30,12 +27,13 @@ function [E, ucm2, candidates, detection_scores_no_nms, cls] = run_all(I, D, RD,
   disp('Compute regions OK');
 
   % Display the superpixels and the regions
-  figure(1); 
-  subplot(2,3,1); imagesc(Es{2}); axis image; title('Edge Signal');
-  subplot(2,3,2); imagesc(ucm2(3:2:end, 3:2:end)); axis image; title('Multi UCM');
+%  figure(1); 
+%  subplot(2,3,1); imagesc(Es{2}); axis image; title('Edge Signal');
+%  subplot(2,3,2); imagesc(ucm2(3:2:end, 3:2:end)); axis image; title('Multi UCM');
   sp = bwlabel(ucm2 < 0.20); sp = sp(2:2:end, 2:2:end);
-  for i = 1:3, csp(:,i) = accumarray(sp(:), linIt(I(:,:,i)), [], @mean); end
-  subplot(2,3,3); imagesc(ind2rgb(sp, im2double(uint8(csp)))); axis image; title('Superpixels');
+%  for i = 1:3, csp(:,i) = accumarray(sp(:), linIt(I(:,:,i)), [], @mean); end
+%  subplot(2,3,3); imagesc(ind2rgb(sp, im2double(uint8(csp)))); axis image; title('Superpixels');
+  if(~isempty(out_file)), save(out_file, '-append', 'sp'); end
   
   boxes = candidates.bboxes(1:2000, [2 1 4 3]);
   
@@ -59,39 +57,4 @@ function [E, ucm2, candidates, detection_scores_no_nms, cls] = run_all(I, D, RD,
   disp('Compute the HHA Features OK');
   return;
 
-  feat = cat(2, feat{:});
-  % Load the detectors!
-  global RCNN_CONFIG_OVERRIDE;
-  conf_override.sub_dir = sprintf('rgb_hha_%d_%s', 30000, 'trainval');
-  RCNN_CONFIG_OVERRIDE = @() conf_override;
-  conf = rcnn_config();
-  dt = load([conf.cache_dir 'rcnn_model'], 'rcnn_model'); rcnn_model = dt.rcnn_model; clear dt;
-  feat = rcnn_scale_features(feat, rcnn_model.training_opts.feat_norm_mean);
-  detection_scores_no_nms = bsxfun(@plus, feat*rcnn_model.detectors.W, rcnn_model.detectors.B);
-  cls = rcnn_model.classes;
-  if(~isempty(out_file)), save(out_file, '-append', 'detection_scores_no_nms', 'cls'); end
-  
-  % Visualize some detections
-  cls_id = [2 5 16 17];
-  cols = lines(length(cls_id));
-  Idet = I;
-  for i = 1:length(cls_id),
-    dt = load(fullfile(conf.cache_dir, 'pr-curves', sprintf('%s_pr_nyud2_test_release.mat', cls{cls_id(i)})));
-    bbox = cat(2, boxes, detection_scores_no_nms(:,cls_id(i)));
-    keep = false(size(bbox(:,1)));
-    keep(rcnn_nms(bbox, 0.3)) = 1;
-    thresh = dt.thresh(find(dt.prec > 0.8, 1, 'last'));
-    ind = bbox(:,5) > thresh;
-    keep = find(keep & ind);
-    bbox = bbox(keep,:);
-    if(size(bbox,1) > 0)
-      Idet = draw_rect_vec(Idet, bbox(:,1:4)', im2uint8(cols(i,:)), 2);
-    end
-  end
-  figure(1); subplot(2,3,4); imagesc(Idet); axis image; title(['detections - ', sprintf('%s, ', cls{cls_id})]);
-  figure(1); subplot(2,3,5); plot([1:length(cls_id)], 1); legend(cls(cls_id)); axis image;
-  
-  %% Do instance segmentation
-  % [] = instance_segmentation(I, D, detections, sp);
-  %% Visualize the instance segmentations
 end
