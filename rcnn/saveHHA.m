@@ -19,6 +19,7 @@ function HHA = saveHHA(imName, C, outDir, D, RD)
   I = uint8(I);
   
   % Save if can save
+  disp(fullfile_ext(outDir, imName, 'png'));
   if(~isempty(outDir) && ~isempty(imName)), imwrite(I, fullfile_ext(outDir, imName, 'png')); end
   
   HHA = I;

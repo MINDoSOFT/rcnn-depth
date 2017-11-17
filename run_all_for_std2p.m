@@ -16,15 +16,15 @@ function [E, ucm2, candidates, detection_scores_no_nms, cls] = run_all(I, D, RD,
   disp('Compute UCMs OK');
 
   %% Compute the regions
-  params = nyud_params('root_cache_dir', p.cache_dir, 'feature_id', 'depth', 'depth_features', true, 'camera_matrix', C);  
-  rf = loadvar(params.files.trained_classifier,'rf');
-  n_cands = loadvar(params.files.pareto_point,'n_cands');
+%  params = nyud_params('root_cache_dir', p.cache_dir, 'feature_id', 'depth', 'depth_features', true, 'camera_matrix', C);  
+%  rf = loadvar(params.files.trained_classifier,'rf');
+%  n_cands = loadvar(params.files.pareto_point,'n_cands');
    
-  mcg_cache_obj = cache_mcg_features(params, {ucm2, ucms(:,:,1), ucms(:,:,2), ucms(:,:,3)}, [], []);
-  candidates = compute_mcg_cands(params, rf, n_cands, mcg_cache_obj, D, RD);
-  if(~isempty(out_file)), save(out_file, '-append', 'candidates'); end
+%  mcg_cache_obj = cache_mcg_features(params, {ucm2, ucms(:,:,1), ucms(:,:,2), ucms(:,:,3)}, [], []);
+%  candidates = compute_mcg_cands(params, rf, n_cands, mcg_cache_obj, D, RD);
+%  if(~isempty(out_file)), save(out_file, '-append', 'candidates'); end
 
-  disp('Compute regions OK');
+%  disp('Compute regions OK');
 
   % Display the superpixels and the regions
 %  figure(1); 
@@ -35,24 +35,24 @@ function [E, ucm2, candidates, detection_scores_no_nms, cls] = run_all(I, D, RD,
 %  subplot(2,3,3); imagesc(ind2rgb(sp, im2double(uint8(csp)))); axis image; title('Superpixels');
   if(~isempty(out_file)), save(out_file, '-append', 'sp'); end
   
-  boxes = candidates.bboxes(1:2000, [2 1 4 3]);
+%  boxes = candidates.bboxes(1:2000, [2 1 4 3]);
   
   % Compute the RGB Features
-  net_file = fullfile_ext(p.snapshot_dir, sprintf('nyud2_finetune_color_iter_%d', 30000), 'caffemodel');
-  net_def_file = fullfile('nyud2_finetuning', 'imagenet_color_256_fc6.prototxt');
-  mean_file = fullfile_ext(p.mean_file_color, 'mat');
-  rcnn_model = rcnn_create_model(net_def_file, net_file, mean_file);
-  rcnn_model = rcnn_load_model(rcnn_model);
-  feat{1} = rcnn_features(I, boxes, rcnn_model);
+%  net_file = fullfile_ext(p.snapshot_dir, sprintf('nyud2_finetune_color_iter_%d', 30000), 'caffemodel');
+%  net_def_file = fullfile('nyud2_finetuning', 'imagenet_color_256_fc6.prototxt');
+%  mean_file = fullfile_ext(p.mean_file_color, 'mat');
+%  rcnn_model = rcnn_create_model(net_def_file, net_file, mean_file);
+%  rcnn_model = rcnn_load_model(rcnn_model);
+%  feat{1} = rcnn_features(I, boxes, rcnn_model);
 
   % Compute the HHA Features
-  HHA = saveHHA([], C, p.for_std2p_hha_dir, D, RD);
-  net_file = fullfile_ext(p.snapshot_dir, sprintf('nyud2_finetune_hha_iter_%d', 30000), 'caffemodel');
-  net_def_file = fullfile('nyud2_finetuning', 'imagenet_hha_256_fc6.prototxt');
-  mean_file = fullfile_ext(p.mean_file_hha, 'mat');
-  rcnn_model = rcnn_create_model(net_def_file, net_file, mean_file);
-  rcnn_model = rcnn_load_model(rcnn_model);
-  feat{2} = rcnn_features(HHA, boxes, rcnn_model);
+  HHA = saveHHA(['image'], C, p.for_std2p_hha_dir, D, RD);
+%  net_file = fullfile_ext(p.snapshot_dir, sprintf('nyud2_finetune_hha_iter_%d', 30000), 'caffemodel');
+%  net_def_file = fullfile('nyud2_finetuning', 'imagenet_hha_256_fc6.prototxt');
+%  mean_file = fullfile_ext(p.mean_file_hha, 'mat');
+%  rcnn_model = rcnn_create_model(net_def_file, net_file, mean_file);
+%  rcnn_model = rcnn_load_model(rcnn_model);
+%  feat{2} = rcnn_features(HHA, boxes, rcnn_model);
   
   disp('Compute the HHA Features OK');
   return;
