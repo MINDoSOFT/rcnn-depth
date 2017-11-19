@@ -18,7 +18,9 @@ filesRawdepths = sort(filesRawdepths);
 
 exists_or_mkdir(demoOutputDir);
 
-for ii = 1 : numel(filesImages)
+filesToSkip = 0; % Useful when something goes wrong e.g. segmentation fault
+
+for ii = max(1, filesToSkip) : numel(filesImages)
   % For each of the files in demo-data/images
   disp(filesImages{ii});
   disp(filesDepths{ii});
@@ -31,10 +33,11 @@ for ii = 1 : numel(filesImages)
   % Set the output file to output/images_XYZ.mat
   [pathstr,name,ext] = fileparts(fullfile(demoImages, filesImages{ii}));
   out_file = fullfile(demoOutputDir, [name '.mat']);
+  out_file_sp = fullfile(demoOutputDir, [name '_sp' '.mat']);
   % For checking
   disp(out_file);
   % Run rcnn-depth for each file
-  run_all_for_std2p(I, D, RD, C, out_file, name);
+  run_all_for_std2p(I, D, RD, C, out_file, name, out_file_sp);
 
 end
 

@@ -1,5 +1,5 @@
-function [E, ucm2, candidates, detection_scores_no_nms, cls] = run_all(I, D, RD, C, out_file, image_name)
-% function [E, ucm2, candidates, detection_scores_no_nms, cls] = run_all(I, D, RD, C, out_file, image_name)
+function [E, ucm2, candidates, detection_scores_no_nms, cls] = run_all(I, D, RD, C, out_file, image_name, out_file_sp)
+% function [E, ucm2, candidates, detection_scores_no_nms, cls] = run_all(I, D, RD, C, out_file, image_name, out_file_sp)
 
 % AUTORIGHTS
 
@@ -34,6 +34,7 @@ function [E, ucm2, candidates, detection_scores_no_nms, cls] = run_all(I, D, RD,
 %  for i = 1:3, csp(:,i) = accumarray(sp(:), linIt(I(:,:,i)), [], @mean); end
 %  subplot(2,3,3); imagesc(ind2rgb(sp, im2double(uint8(csp)))); axis image; title('Superpixels');
   if(~isempty(out_file)), save(out_file, '-append', 'sp'); end
+  if(~isempty(out_file_sp)), save(out_file_sp, 'sp'); end
   
 %  boxes = candidates.bboxes(1:2000, [2 1 4 3]);
   
