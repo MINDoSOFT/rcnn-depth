@@ -14,8 +14,7 @@ function p = get_paths(runname)
   % Customizations for paths
   p.pbs_batch_dir = fullfile(p.cache_dir, 'pbs_batch');
   p.camera_ready_dir = fullfile(p.cache_dir, 'camera_ready');
-  p.for_std2p_dir = fullfile(p.cache_dir, 'for_std2p');
-  p.for_std2p_hha_dir = fullfile(p.for_std2p_dir, 'hha');
+  p.for_std2p_hha_dir = fullfile('demo-data', 'hha');
  
   p.contours_dir = fullfile(p.cache_dir, 'contours');
     p.contours_cues_dir = fullfile(p.contours_dir, 'cues');

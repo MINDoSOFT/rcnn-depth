@@ -2,6 +2,7 @@ demoDataDir = 'demo-data';
 demoImages = sprintf('%s/%s', demoDataDir, 'images');
 demoDepths = sprintf('%s/%s', demoDataDir, 'depth');
 demoRawdepths = sprintf('%s/%s', demoDataDir, 'rawdepth');
+demoOutputDir = sprintf('%s/%s', demoDataDir, 'output');
 
 filesImages = regexp(ls(demoImages), '(\s+|\n)', 'split');
 filesImages(end) = [];
@@ -15,8 +16,9 @@ filesRawdepths = regexp(ls(demoRawdepths), '(\s+|\n)', 'split');
 filesRawdepths(end) = [];
 filesRawdepths = sort(filesRawdepths);
 
-for ii = 1 : 2
-%for ii = 1 : numel(filesImages)
+exists_or_mkdir(demoOutputDir);
+
+for ii = 1 : numel(filesImages)
   % For each of the files in demo-data/images
   disp(filesImages{ii});
   disp(filesDepths{ii});
@@ -28,11 +30,11 @@ for ii = 1 : 2
   C = cropCamera(getCameraParam('color'));
   % Set the output file to output/images_XYZ.mat
   [pathstr,name,ext] = fileparts(fullfile(demoImages, filesImages{ii}));
-  out_file = fullfile([demoDataDir '/output'], [name '.mat']);
+  out_file = fullfile(demoOutputDir, [name '.mat']);
   % For checking
   disp(out_file);
   % Run rcnn-depth for each file
-  run_all_for_std2p(I, D, RD, C, out_file);
+  run_all_for_std2p(I, D, RD, C, out_file, name);
 
 end
 

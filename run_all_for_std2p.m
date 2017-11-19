@@ -1,5 +1,5 @@
-function [E, ucm2, candidates, detection_scores_no_nms, cls] = run_all(I, D, RD, C, out_file)
-% function [E, ucm2, candidates, detection_scores_no_nms, cls] = run_all(I, D, RD, C, out_file)
+function [E, ucm2, candidates, detection_scores_no_nms, cls] = run_all(I, D, RD, C, out_file, image_name)
+% function [E, ucm2, candidates, detection_scores_no_nms, cls] = run_all(I, D, RD, C, out_file, image_name)
 
 % AUTORIGHTS
 
@@ -46,7 +46,7 @@ function [E, ucm2, candidates, detection_scores_no_nms, cls] = run_all(I, D, RD,
 %  feat{1} = rcnn_features(I, boxes, rcnn_model);
 
   % Compute the HHA Features
-  HHA = saveHHA(['image'], C, p.for_std2p_hha_dir, D, RD);
+  HHA = saveHHA([image_name], C, p.for_std2p_hha_dir, D, RD);
 %  net_file = fullfile_ext(p.snapshot_dir, sprintf('nyud2_finetune_hha_iter_%d', 30000), 'caffemodel');
 %  net_def_file = fullfile('nyud2_finetuning', 'imagenet_hha_256_fc6.prototxt');
 %  mean_file = fullfile_ext(p.mean_file_hha, 'mat');
