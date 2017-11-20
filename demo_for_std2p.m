@@ -2,7 +2,8 @@ demoDataDir = 'demo-data';
 demoImages = sprintf('%s/%s', demoDataDir, 'images');
 demoDepths = sprintf('%s/%s', demoDataDir, 'depth');
 demoRawdepths = sprintf('%s/%s', demoDataDir, 'rawdepth');
-demoOutputDir = sprintf('%s/%s', demoDataDir, 'output');
+demoOutputAllDir = sprintf('%s/%s/%s', demoDataDir, 'output', 'all');
+demoOutputSpDir = sprintf('%s/%s/%s', demoDataDir, 'output', 'sp');
 
 filesImages = regexp(ls(demoImages), '(\s+|\n)', 'split');
 filesImages(end) = [];
@@ -16,9 +17,10 @@ filesRawdepths = regexp(ls(demoRawdepths), '(\s+|\n)', 'split');
 filesRawdepths(end) = [];
 filesRawdepths = sort(filesRawdepths);
 
-exists_or_mkdir(demoOutputDir);
+exists_or_mkdir(demoOutputAllDir);
+exists_or_mkdir(demoOutputSpDir);
 
-filesToSkip = 100; % Useful when something goes wrong e.g. segmentation fault
+filesToSkip = 0; % Useful when something goes wrong e.g. segmentation fault, default is 0.
 
 disp('Started running rcnn-depth');
 
@@ -34,8 +36,8 @@ for ii = max(1, filesToSkip + 1) : numel(filesImages)
   C = cropCamera(getCameraParam('color'));
   % Set the output file to output/images_XYZ.mat
   [pathstr,name,ext] = fileparts(fullfile(demoImages, filesImages{ii}));
-  out_file = fullfile(demoOutputDir, [name '.mat']);
-  out_file_sp = fullfile(demoOutputDir, [name '_sp' '.mat']);
+  out_file = fullfile(demoOutputAllDir, [name '.mat']);
+  out_file_sp = fullfile(demoOutputSpDir, [name '_sp' '.mat']);
   % For checking
   disp(out_file);
   % Run rcnn-depth for each file
