@@ -35,6 +35,7 @@ function [E, ucm2, candidates, detection_scores_no_nms, cls] = run_all(I, D, RD,
 %  subplot(2,3,3); imagesc(ind2rgb(sp, im2double(uint8(csp)))); axis image; title('Superpixels');
   if(~isempty(out_file)), save(out_file, '-append', 'sp'); end
   if(~isempty(out_file_sp)), save(out_file_sp, 'sp'); end
+  disp('Compute the Superpixels OK');
   
 %  boxes = candidates.bboxes(1:2000, [2 1 4 3]);
   

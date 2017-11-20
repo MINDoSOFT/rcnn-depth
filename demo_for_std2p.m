@@ -18,9 +18,11 @@ filesRawdepths = sort(filesRawdepths);
 
 exists_or_mkdir(demoOutputDir);
 
-filesToSkip = 0; % Useful when something goes wrong e.g. segmentation fault
+filesToSkip = 100; % Useful when something goes wrong e.g. segmentation fault
 
-for ii = max(1, filesToSkip) : numel(filesImages)
+disp('Started running rcnn-depth');
+
+for ii = max(1, filesToSkip + 1) : numel(filesImages)
   % For each of the files in demo-data/images
   disp(filesImages{ii});
   disp(filesDepths{ii});
@@ -41,3 +43,4 @@ for ii = max(1, filesToSkip) : numel(filesImages)
 
 end
 
+disp('All done');
