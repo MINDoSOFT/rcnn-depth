@@ -1,4 +1,4 @@
-demoDataDir = 'demo-data';
+demoDataDir = './demo-data';
 demoImages = sprintf('%s/%s', demoDataDir, 'images');
 demoDepths = sprintf('%s/%s', demoDataDir, 'depth');
 demoRawdepths = sprintf('%s/%s', demoDataDir, 'rawdepth');
