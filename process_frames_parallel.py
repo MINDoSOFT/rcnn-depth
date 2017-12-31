@@ -32,7 +32,10 @@ with open(frame_list_file) as frames:
 #workers = cnt - 1;
 # For testing
 #workers = 4;
-workers = 64;
+workers = 32;
+
+specificWorker = False;
+specificBatchId = 51;
 
 # Keep launching workers in batches until frame list is consumed
 for ii in range(0, int(math.ceil(float(cnt)/workers))):
@@ -42,7 +45,7 @@ for ii in range(0, int(math.ceil(float(cnt)/workers))):
       exit()
     batchId = (x+1+(ii * workers))
     print('BatchId: %d' % (batchId))
-    if(True or batchId==4): # adjust if you want only a specific file
+    if(not specificWorker or (specificWorker and batchId==specificBatchId)): # adjust if you want only a specific file
       if (x == (workers-1)):
         spawn_command = launch_save_frame_batch_wait % (x+1+(ii * workers), matlab_script)
       else:
