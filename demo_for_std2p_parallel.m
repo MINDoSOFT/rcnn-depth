@@ -40,6 +40,12 @@ else
   end
 end
 
+if ~(exist('operation') == 1)
+  operation = 0;
+end
+
+p = get_paths();
+
 filesToSkip = batchId - 1; % Useful when something goes wrong e.g. segmentation fault, default is 0.
 
 testing = false;
@@ -71,7 +77,13 @@ ii = max(1, filesToSkip + 1);
   disp(out_file);
   % Run rcnn-depth for each file
   if (testing == false)
-    run_all_for_std2p(I, D, RD, C, out_file, name, out_file_sp);
+    if (operation == 0) % ALL
+      run_all_for_std2p(I, D, RD, C, out_file, name, out_file_sp);
+    elseif (operation == 1) % HHA
+      saveHHA([name], C, p.for_std2p_hha_dir, D, RD);
+    else
+      disp(['Unknown operation: ' operation])
+    end
   end
 
 %end
